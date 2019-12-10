@@ -4,9 +4,10 @@ import com.ullink.slack.simpleslackapi.WebSocketContainerProvider;
 
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.client.ClientProperties;
-import org.glassfish.tyrus.core.Base64Utils;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class DefaultWebSocketContainerProvider implements WebSocketContainerProv
         if (proxyUser != null)
         {
             Map<String, String> headers = new HashMap<>();
-            headers.put("Proxy-Authorization", "Basic " + Base64Utils.encodeToString((proxyUser + ":" + proxyPassword).getBytes(Charset.forName("UTF-8")), false));
+            headers.put("Proxy-Authorization", "Basic " + Base64.getEncoder().encodeToString((proxyUser + ":" + proxyPassword).getBytes(StandardCharsets.UTF_8)));
             clientManager.getProperties().put(ClientProperties.PROXY_HEADERS, headers);
         }
         return clientManager;
